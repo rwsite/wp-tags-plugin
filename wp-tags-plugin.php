@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Hierarchical tags
- * Description: Add support hierarchical tags for posts. Wordpress Plugin.
+ * Description: Add support hierarchical tags for posts. Output for tags for post: <code>[tags]</code>
  * Version:     1.0.0
  * Author:      Aleksey Tikhomirov
  * Author URI:  http://rwsite.ru
@@ -96,13 +96,14 @@ class HierarchicalTags
     /**
      * Show custom tags
      */
-    public function show()
+    public function show($atts)
     {
-        $terms = get_the_terms( get_the_ID(), 'post_tag' );
 
+        $terms = get_the_terms( get_the_ID(), 'post_tag' );
         if (empty( $terms ) || is_wp_error( $terms )) {
             return;
         }
+
         $classes = 'post-tags clearfix ';
         $classes .= 'post-share-class';
         ?>
