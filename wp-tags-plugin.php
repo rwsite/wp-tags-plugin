@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Hierarchical tags
  * Description: Add support hierarchical tags for posts. Output for tags for post: <code>[tags]</code>
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      Aleksey Tikhomirov
  * Author URI:  http://rwsite.ru
  *
@@ -12,6 +12,10 @@
  */
 
 defined( 'ABSPATH' ) or die( 'Nothing here!' );
+
+if(class_exists('HierarchicalTags')){
+    return;
+}
 
 class HierarchicalTags
 {
@@ -64,7 +68,6 @@ class HierarchicalTags
                     'new_item_name'              => __( 'Name of tag', 'theme' ),
                     'separate_items_with_commas' => __( 'Separete with comma', 'theme' ),
                     'add_or_remove_items'        => __( 'Add or Remove tag', 'theme' ),
-                    /*'choose_from_most_used' => __('Выбрать из наиболее часто используемых в-тег'),*/
                     'menu_name'                  => __( 'Tags', 'theme' )
                 ],
                 'hierarchical'          => true,
@@ -78,7 +81,6 @@ class HierarchicalTags
                 'public'                => true,
                 'show_ui'               => true,
                 'show_admin_column'     => true,
-                '_builtin'              => true,
                 'capabilities'          => [
                     'manage_terms' => 'manage_post_tags',
                     'edit_terms'   => 'edit_post_tags',
@@ -111,7 +113,7 @@ class HierarchicalTags
             <span class="terms-label"><i class="fa fa-tags"></i></span>
             <?php
             foreach ($terms as $term) {
-                $link = get_term_link( $term, 'tags' );
+                $link = get_term_link( $term, 'post_tag' );
                 if (is_wp_error( $link )) {
                     continue;
                 }
