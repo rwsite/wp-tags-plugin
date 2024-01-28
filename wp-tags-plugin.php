@@ -8,10 +8,10 @@
  * Author:       Aleksei Tikhomirov
  * Author URI:   https://rwsite.ru
  * Tested up to: 6.8
- * Requires PHP: 8.0+
+ * Requires PHP: 7.4+
  * License: GPLv3 or later
  *
- * Tags: tweak, addon,
+ * Tags: tags, hierarchical tags
  */
 
 defined( 'ABSPATH' ) or die( 'Nothing here!' );
@@ -104,31 +104,34 @@ class HierarchicalTags
     /**
      * Show custom tags
      */
-    public function show($atts)
+    public function show( $atts): string
     {
+        $atts = shortcode_atts([
+            'before'    => '',
+            'after'     => '',
+            'separator' => ', ',
+        ], $atts, 'tags');
 
         $terms = get_the_terms( get_the_ID(), static::$taxonomy );
         if (empty( $terms ) || is_wp_error( $terms )) {
-            return;
+            return '';
         }
 
-        $classes = 'post-tags clearfix ';
-        $classes .= 'post-share-class';
-        ?>
-        <div class="<?php esc_attr_e($classes);?>">
-            <span class="terms-label"><i class="fa fa-tags"></i></span>
-            <?php
-            foreach ($terms as $term) {
-                $link = get_term_link( $term, static::$taxonomy );
-                if (is_wp_error( $link )) {
-                    continue;
-                }
-                echo '<a href="'. esc_url( $link ) .'" rel="tag">' .$term->name. '</a>';
+        $html = $atts['before'];
+        foreach ($terms as $key => $term) {
+            $link = get_term_link( $term, static::$taxonomy );
+            if (is_wp_error( $link )) {
+                continue;
             }
-            ?>
-        </div>
-        <?php
-        unset( $terms );
+            $html .= '<a href="'. esc_url( $link ) .'" rel="tag">' .$term->name. '</a>';
+            if($key !== array_key_last($terms)) {
+                $html .= $atts['separator'];
+            }
+        }
+        $html .= $atts['after'];
+
+        unset( $term, $terms );
+        return $html;
     }
 
     public static function wp_term_importer(){
