@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Hierarchical tags\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-28 21:53+0000\n"
+"PO-Revision-Date: 2024-01-28 21:56+0000\n"
+"Last-Translator: Алексей\n"
+"Language-Team: Russian\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
+"n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.6; wp-6.4.2\n"
+"X-Domain: theme"
+
+#: wp-tags-plugin.php:72
+msgid "Add new"
+msgstr "Добавить"
+
+#: wp-tags-plugin.php:75
+msgid "Add or Remove tag"
+msgstr "Добавить или удалить тег"
+
+#. Description of the plugin
+msgid ""
+"Add support hierarchical tags for posts. Output for tags for post: <code>"
+"[tags]</code>"
+msgstr ""
+"Добавляет поддержку иерархических тегов для постов. Вывод тегов для поста: "
+"<code>[tags]</code>"
+
+#. Author of the plugin
+msgid "Aleksei Tikhomirov"
+msgstr "Алексей Тихомиров"
+
+#: wp-tags-plugin.php:67
+msgid "All tags"
+msgstr "Все теги"
+
+#: wp-tags-plugin.php:70
+msgid "Edit hierarchical tag"
+msgstr "Редактировать"
+
+#. Name of the plugin
+msgid "Hierarchical tags"
+msgstr "Иерархические теги"
+
+#. Author URI of the plugin
+msgid "https://rwsite.ru"
+msgstr "https://rwsite.ru"
+
+#: wp-tags-plugin.php:73
+msgid "Name of tag"
+msgstr "Имя тега"
+
+#: wp-tags-plugin.php:65
+msgid "Search tag"
+msgstr "Поиск тега"
+
+#: wp-tags-plugin.php:74
+msgid "Separete with comma"
+msgstr "Разделять запятой"
+
+#: wp-tags-plugin.php:64
+msgid "Tag"
+msgstr "Тег"
+
+#: wp-tags-plugin.php:63 wp-tags-plugin.php:76
+msgid "Tags"
+msgstr "Теги"
+
+#: wp-tags-plugin.php:71
+msgid "Update"
+msgstr "Обновить"

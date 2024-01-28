@@ -1,37 +1,40 @@
 <?php
-/**
+/*
  * Plugin Name: Hierarchical tags
  * Description: Add support hierarchical tags for posts. Output for tags for post: <code>[tags]</code>
  * Version:     1.0.1
- * Author:      Aleksey Tikhomirov
- * Author URI:  http://rwsite.ru
- *
- * Requires at least: 4.6
- * Tested up to: 6.3
+ * Text Domain:  theme
+ * Domain Path:  /languages
+ * Author:       Aleksei Tikhomirov
+ * Author URI:   https://rwsite.ru
+ * Tested up to: 6.8
  * Requires PHP: 8.0+
+ * License: GPLv3 or later
+ *
+ * Tags: tweak, addon,
  */
 
 defined( 'ABSPATH' ) or die( 'Nothing here!' );
 
-if(class_exists('HierarchicalTags')){
-    return;
-}
-
 class HierarchicalTags
 {
+    public static string $taxonomy = 'post_tag';
+
     public function __construct()
     {
-        $this->add_actions();
+
     }
 
     public function add_actions(){
 
-        add_shortcode('tags', [$this, 'show']);
+        load_plugin_textdomain( 'theme', false, dirname(plugin_basename(__FILE__)) . '/languages' );
 
-        add_action('init', [$this, 'register_taxonomy']);
+
+        add_action('init', [$this, 'register_taxonomy'], 100);
+
         add_filter('get_the_tags', [__CLASS__, 'get_the_tags']);
-
         add_action('admin_init', [$this, 'wp_term_importer']);
+        add_shortcode('tags', [$this, 'show']);
     }
 
 
@@ -42,7 +45,7 @@ class HierarchicalTags
      */
     public static function get_the_tags($terms = null)
     {
-        return get_the_terms(get_the_ID() ?? 0, 'post_tag');
+        return get_the_terms(get_the_ID() ?? 0, static::$taxonomy);
     }
 
     /**
@@ -50,8 +53,10 @@ class HierarchicalTags
      */
     public function register_taxonomy()
     {
+        global $wp_rewrite;
+
         register_taxonomy(
-            'post_tag',
+            static::$taxonomy,
             'post',
             array(
                 'labels'                => [
@@ -72,21 +77,22 @@ class HierarchicalTags
                 ],
                 'hierarchical'          => true,
                 'query_var'             => 'tag',
-                'rewrite'               => [
+                'rewrite' => [
                     'hierarchical' => true,
-                    'slug'         => get_option( 'tag_base' ) ? get_option( 'tag_base' ) : 'tag',
-                    'with_front'   => ! get_option( 'tag_base' ) || 'tags',
+                    'slug'         => get_option('tag_base') ? get_option('tag_base') : 'tag',
+                    'with_front'   => !get_option('tag_base') || 'tags',
                     'ep_mask'      => EP_TAGS,
                 ],
                 'public'                => true,
                 'show_ui'               => true,
                 'show_admin_column'     => true,
-                'capabilities'          => [
+                '_builtin'              => true,
+                'capabilities'          => array(
                     'manage_terms' => 'manage_post_tags',
                     'edit_terms'   => 'edit_post_tags',
                     'delete_terms' => 'delete_post_tags',
                     'assign_terms' => 'assign_post_tags',
-                ],
+                ),
                 'show_in_rest'          => true,
                 'rest_base'             => 'tags',
                 'rest_controller_class' => 'WP_REST_Terms_Controller',
@@ -101,7 +107,7 @@ class HierarchicalTags
     public function show($atts)
     {
 
-        $terms = get_the_terms( get_the_ID(), 'post_tag' );
+        $terms = get_the_terms( get_the_ID(), static::$taxonomy );
         if (empty( $terms ) || is_wp_error( $terms )) {
             return;
         }
@@ -113,7 +119,7 @@ class HierarchicalTags
             <span class="terms-label"><i class="fa fa-tags"></i></span>
             <?php
             foreach ($terms as $term) {
-                $link = get_term_link( $term, 'post_tag' );
+                $link = get_term_link( $term, static::$taxonomy );
                 if (is_wp_error( $link )) {
                     continue;
                 }
@@ -156,4 +162,4 @@ class HierarchicalTags
     }
 }
 
-new HierarchicalTags();
+(new HierarchicalTags())->add_actions();
