@@ -1,0 +1,15 @@
+{
+  "name": "rwsite/wp-tags-plugin",
+  "description": "Wordpress tags plugin",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "type": "wordpress-plugin",
+  "authors": [
+    {
+      "name": "Aleksei Tikhomirov",
+      "email": "alex@rwsite.ru"
+    }
+  ],
+  "require": {
+  }
+}
